@@ -30,7 +30,6 @@ class SelectServiceTest {
 
     @Test
     void testApplyLoanOfferSuccessfully() {
-        // Arrange
         UUID statementId = UUID.randomUUID();
 
         LoanOfferDto offer = new LoanOfferDto();
@@ -49,10 +48,8 @@ class SelectServiceTest {
 
         when(statementRepository.findById(statementId)).thenReturn(Optional.of(statement));
 
-        // Act
         selectService.applyLoanOffer(offer);
 
-        // Assert
         verify(statementRepository).save(argThat(saved ->
                 saved.getStatus() == ApplicationStatus.APPROVED &&
                         saved.getAppliedOffer().equals(offer) &&
@@ -63,14 +60,12 @@ class SelectServiceTest {
 
     @Test
     void testApplyLoanOfferThrowsExceptionWhenStatementNotFound() {
-        // Arrange
         UUID statementId = UUID.randomUUID();
         LoanOfferDto offer = new LoanOfferDto();
         offer.setStatementId(statementId);
 
         when(statementRepository.findById(statementId)).thenReturn(Optional.empty());
 
-        // Act & Assert
         EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () ->
                 selectService.applyLoanOffer(offer)
         );
