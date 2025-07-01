@@ -1,5 +1,23 @@
 spring:
   application:
     name: deal
+  datasource:
+    url: jdbc:postgresql://localhost:5433/NeoDBmvp
+    username: postgres
+    password: 1
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
 server:
   port: 8081
+calculator:
+  offers:
+    url: http://localhost:8082/calculator/offer
+  calc:
+    url: http://localhost:8082/calculator/calc
