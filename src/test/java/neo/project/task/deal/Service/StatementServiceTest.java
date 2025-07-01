@@ -45,15 +45,13 @@ class StatementServiceTest {
 
     @Test
     void testProcessStatementRequest_PassportNotFound() {
-        // Arrange
         LoanStatementRequestDto request = new LoanStatementRequestDto();
         request.setPassportSeries("1234");
         request.setPassportNumber("567890");
 
         when(passportRepository.findBySeriesAndNumberPassport("1234", "567890"))
                 .thenReturn(Optional.empty());
-
-        // Act & Assert
+        
         RuntimeException ex = assertThrows(RuntimeException.class, () ->
                 statementService.processStatementRequest(request)
         );
@@ -65,7 +63,6 @@ class StatementServiceTest {
 
     @Test
     void testProcessStatementRequest_NullResponseBodyThrowsException() {
-        // Arrange
         LoanStatementRequestDto request = new LoanStatementRequestDto();
         request.setPassportSeries("1234");
         request.setPassportNumber("567890");
@@ -80,7 +77,6 @@ class StatementServiceTest {
         when(restTemplate.postForEntity(anyString(), eq(request), eq(LoanOfferDto[].class)))
                 .thenReturn(ResponseEntity.ok(null));
 
-        // Act & Assert
         assertThrows(PotentialStubbingProblem.class, () ->
                 statementService.processStatementRequest(request)
         );
