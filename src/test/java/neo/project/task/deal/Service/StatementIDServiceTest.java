@@ -72,7 +72,7 @@ class StatementIDServiceTest {
         UUID statementId = UUID.randomUUID();
         Statement statement = new Statement();
         statement.setAppliedOffer(new LoanOfferDto());
-        statement.setClient(null);  // Нет клиента
+        statement.setClient(null);  
 
         when(statementRepository.findById(statementId)).thenReturn(Optional.of(statement));
 
@@ -80,14 +80,14 @@ class StatementIDServiceTest {
                 statementIDService.finishRegistration(statementId, new FinishRegistrationRequestDto())
         );
 
-        assertTrue(ex.getMessage() == null || ex.getMessage().contains("")); // Нет сообщения у NPE
+        assertTrue(ex.getMessage() == null || ex.getMessage().contains("")); 
     }
     @Test
     void testFinishRegistrationThrowsWhenClientHasNoPassport() {
         UUID statementId = UUID.randomUUID();
 
         Client client = new Client();
-        client.setPassport(null); // Нет паспорта
+        client.setPassport(null); 
 
         Statement statement = new Statement();
         statement.setClient(client);
