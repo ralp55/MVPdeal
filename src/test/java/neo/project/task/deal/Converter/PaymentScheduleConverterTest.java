@@ -20,10 +20,7 @@ public class PaymentScheduleConverterTest {
 
     @Test
     void convertToDatabaseColumn_ShouldReturnNull_WhenInputIsNull() {
-        // Act
         String json = converter.convertToDatabaseColumn(null);
-
-        // Assert
         assertNull(json);
     }
 
@@ -31,19 +28,13 @@ public class PaymentScheduleConverterTest {
 
     @Test
     void convertToEntityAttribute_ShouldReturnNull_WhenInputIsNull() {
-        // Act
         List<PaymentScheduleElementDto> list = converter.convertToEntityAttribute(null);
-
-        // Assert
         assertNull(list);
     }
 
     @Test
     void convertToEntityAttribute_ShouldThrowException_WhenInvalidJson() {
-        // Arrange
         String invalidJson = "[{invalid json}]";
-
-        // Act & Assert
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () -> {
             converter.convertToEntityAttribute(invalidJson);
         });
