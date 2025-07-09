@@ -1,7 +1,4 @@
-package neo.project.task.deal.DTO;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+package neo.project.task.deal.dto;
 
 
 public enum EmploymentStatus {

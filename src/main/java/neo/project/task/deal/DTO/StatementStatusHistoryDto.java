@@ -1,4 +1,4 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

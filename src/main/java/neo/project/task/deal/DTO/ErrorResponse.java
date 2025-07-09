@@ -1,4 +1,4 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import lombok.Data;
 

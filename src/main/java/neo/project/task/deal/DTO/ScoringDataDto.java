@@ -1,7 +1,8 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import neo.project.task.deal.entity.Employment;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -48,7 +49,7 @@ public class ScoringDataDto {
     private Integer dependentAmount;
 
     @Schema(description = "Информация о занятости")
-    private EmploymentDto employment;
+    private Employment employment;
 
     @Schema(description = "Номер счёта клиента", example = "40817810099910004312")
     private String accountNumber;

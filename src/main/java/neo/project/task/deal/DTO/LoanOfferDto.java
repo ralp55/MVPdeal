@@ -1,7 +1,6 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
@@ -39,6 +38,4 @@ public class LoanOfferDto implements Serializable {
 
     @Schema(description = "Является зарплатным клиентом", example = "false")
     private Boolean isSalaryClient;
-
-
 }

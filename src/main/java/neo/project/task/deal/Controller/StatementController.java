@@ -1,4 +1,4 @@
-package neo.project.task.deal.Controller;
+package neo.project.task.deal.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -6,10 +6,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import neo.project.task.deal.DTO.LoanOfferDto;
-import neo.project.task.deal.DTO.LoanStatementRequestDto;
-import neo.project.task.deal.Service.StatementServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import neo.project.task.deal.dto.LoanOfferDto;
+import neo.project.task.deal.dto.LoanStatementRequestDto;
+import neo.project.task.deal.service.StatementServiceInterface;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,15 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @RestController
 @RequestMapping("/deal")
 @Tag(name = "Statement API", description = "API для расчёта возможных условий кредита")
+@RequiredArgsConstructor
 public class StatementController {
 
-    @Autowired
     private StatementServiceInterface statementService;
-
+    private static final Logger log = LoggerFactory.getLogger(ControllerExceptionHandler.class);
     @Operation(
             summary = "Получение возможных условий кредитования",
             description = "Вычисляет список возможных кредитных предложений по параметрам клиента.",

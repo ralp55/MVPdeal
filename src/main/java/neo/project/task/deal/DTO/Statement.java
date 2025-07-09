@@ -1,11 +1,11 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
-import neo.project.task.deal.Converter.LoanOfferDtoConverter;
-import neo.project.task.deal.Converter.StatementStatusHistoryConverter;
+import neo.project.task.deal.converter.LoanOfferDtoConverter;
+import neo.project.task.deal.converter.StatementStatusHistoryConverter;
 import org.hibernate.annotations.Type;
 import jakarta.persistence.*;
 import jakarta.persistence.Convert;

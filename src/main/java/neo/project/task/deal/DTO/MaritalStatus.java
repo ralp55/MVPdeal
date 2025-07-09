@@ -1,4 +1,4 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 public enum MaritalStatus{
     SINGLE,

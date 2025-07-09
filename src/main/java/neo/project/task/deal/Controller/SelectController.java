@@ -1,14 +1,15 @@
-package neo.project.task.deal.Controller;
+package neo.project.task.deal.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import neo.project.task.deal.DTO.LoanOfferDto;
-import neo.project.task.deal.Service.SelectServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
+import neo.project.task.deal.dto.LoanOfferDto;
+import neo.project.task.deal.service.SelectServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/deal")
 @Tag(name = "Statement API", description = "API для выбора кредитного предложения")
+@RequiredArgsConstructor
 public class SelectController {
 
-    @Autowired
     private SelectServiceInterface statementService;
 
     @Operation(
@@ -31,7 +32,7 @@ public class SelectController {
             }
     )
     @PostMapping("/offer/select")
-    public ResponseEntity<Void> selectLoanOffer(@RequestBody LoanOfferDto offer) {
+    public ResponseEntity<Void> selectLoanOffer(@Valid @RequestBody LoanOfferDto offer) {
         log.info("Received selected offer: {}", offer);
         statementService.applyLoanOffer(offer);
         log.info("Offer applied successfully for statementId={}", offer.getStatementId());

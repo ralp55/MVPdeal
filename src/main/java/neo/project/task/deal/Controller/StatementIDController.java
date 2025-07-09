@@ -1,15 +1,14 @@
-package neo.project.task.deal.Controller;
+package neo.project.task.deal.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import neo.project.task.deal.DTO.FinishRegistrationRequestDto;
-import neo.project.task.deal.Service.StatementIDService;
-import neo.project.task.deal.Service.StatementIDServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
+import neo.project.task.deal.dto.FinishRegistrationRequestDto;
+import neo.project.task.deal.service.StatementIDServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +18,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/deal")
 @Tag(name = "Deal API", description = "API для завершения регистрации и расчёта кредита")
+@RequiredArgsConstructor
 public class StatementIDController {
 
-    @Autowired
     private StatementIDServiceInterface dealCalculationService;
 
     @Operation(

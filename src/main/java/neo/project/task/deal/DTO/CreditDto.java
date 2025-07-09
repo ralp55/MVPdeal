@@ -1,11 +1,10 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Data
 public class CreditDto {

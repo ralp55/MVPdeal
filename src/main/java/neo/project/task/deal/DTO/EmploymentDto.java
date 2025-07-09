@@ -1,8 +1,9 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
+import neo.project.task.deal.dto.EmploymentStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;

@@ -1,7 +1,8 @@
-package neo.project.task.deal.DTO;
+package neo.project.task.deal.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import neo.project.task.deal.entity.Employment;
 
 import java.time.LocalDate;
 
@@ -25,7 +26,7 @@ public class FinishRegistrationRequestDto {
     private String passportIssueBrach;
 
     @Schema(description = "Информация о занятости")
-    private EmploymentDto employment;
+    private Employment employment;
 
     @Schema(description = "Номер счета")
     private String accountNumber;
