@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import jakarta.validation.Valid;
 import neo.project.task.deal.dto.LoanOfferDto;
@@ -27,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Statement API", description = "API для расчёта возможных условий кредита")
 @RequiredArgsConstructor
 public class StatementController {
-
     private StatementServiceInterface statementService;
     @Operation(
             summary = "Получение возможных условий кредитования",
