@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import jakarta.validation.Valid;
 import neo.project.task.deal.dto.LoanOfferDto;
 import neo.project.task.deal.dto.LoanStatementRequestDto;
 import neo.project.task.deal.service.StatementServiceInterface;
@@ -38,7 +39,7 @@ public class StatementController {
             }
     )
     @PostMapping("/statement")
-    public ResponseEntity<List<LoanOfferDto>> getLoanOffers(@RequestBody LoanStatementRequestDto request) {
+    public ResponseEntity<List<LoanOfferDto>> getLoanOffers(@Valid @RequestBody LoanStatementRequestDto request) {
         log.info("Received loan request: {}", request);
         List<LoanOfferDto> offers = statementService.processStatementRequest(request);
         log.info("Successfully generated {} loan offers", offers.size());
