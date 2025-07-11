@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import jakarta.validation.Valid;
 import neo.project.task.deal.dto.FinishRegistrationRequestDto;
 import neo.project.task.deal.service.StatementIDServiceInterface;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,7 @@ public class StatementIDController {
             }
     )
     @PostMapping("/calculate/{statementId}")
-    public ResponseEntity<Void> finishRegistration(
-            @PathVariable UUID statementId,
-            @RequestBody FinishRegistrationRequestDto request
-    ) {
+    public ResponseEntity<Void> finishRegistration(@PathVariable UUID statementId, @Valid @RequestBody FinishRegistrationRequestDto request) {
         log.info("Начало финального расчета по заявке {}", statementId);
         dealCalculationService.finishRegistration(statementId, request);
         log.info("Кредит успешно рассчитан и сохранён для заявки {}", statementId);
