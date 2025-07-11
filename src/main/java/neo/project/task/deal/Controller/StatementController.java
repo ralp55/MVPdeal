@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import neo.project.task.deal.dto.LoanOfferDto;
 import neo.project.task.deal.dto.LoanStatementRequestDto;
 import neo.project.task.deal.service.StatementServiceInterface;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/deal")
 @Tag(name = "Statement API", description = "API для расчёта возможных условий кредита")
@@ -29,7 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 public class StatementController {
 
     private StatementServiceInterface statementService;
-    private static final Logger log = LoggerFactory.getLogger(ControllerExceptionHandler.class);
     @Operation(
             summary = "Получение возможных условий кредитования",
             description = "Вычисляет список возможных кредитных предложений по параметрам клиента.",
