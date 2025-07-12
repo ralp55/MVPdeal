@@ -14,7 +14,7 @@ public interface StatementMapper {
 
     @Mapping(target = "client", source = "client")
     @Mapping(target = "creationDate", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "status", expression = "ApplicationStatus.PREAPPROVAL")
+    @Mapping(target = "status", expression = "java(ApplicationStatus.PREAPPROVAL)")
     Statement toStatement(Client client);
 
     @Mapping(target = "creditId", source = "creditId")
