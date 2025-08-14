@@ -1,0 +1,89 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Java CI with Maven
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5433:5432
+        env:
+          POSTGRES_DB: N
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 1
+        options: >-
+          --health-cmd="pg_isready -U postgres -d N"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      kafka:
+        image: bitnami/kafka:3.7
+        ports:
+          - 9092:9092
+        env:
+          KAFKA_BROKER_ID: 1
+          KAFKA_LISTENERS: PLAINTEXT://:9092
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+          KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        options: >-
+          --health-cmd="kafka-topics.sh --bootstrap-server localhost:9092 --list || exit 1"
+          --health-interval=15s
+          --health-timeout=10s
+          --health-retries=10
+
+      zookeeper:
+        image: bitnami/zookeeper:3.8
+        ports:
+          - 2181:2181
+        env:
+          ALLOW_ANONYMOUS_LOGIN: yes
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - name: Build test
+        run: mvn clean verify org.jacoco:jacoco-maven-plugin:report
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: target/site/jacoco/jacoco.xml
+          flags: unittests
+          fail_ci_if_error: true
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        with:
+          projectBaseDir: .
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: deal-service-jar
+          path: target/*.jar
