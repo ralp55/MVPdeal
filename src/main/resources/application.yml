@@ -1,5 +1,68 @@
 spring:
   application:
-    name: deal
+    name: deal-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/N
+    username: postgres
+    password: 1
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+    admin:
+      auto-create: true
+    topics:
+      - name: finish-registrations
+        num-partitions: 3
+        replication-factor: 1
+      - name: create-documents
+        num-partitions: 3
+        replication-factor: 1
+      - name: send-documents
+        num-partitions: 3
+        replication-factor: 1
+      - name: send-ses
+        num-partitions: 3
+        replication-factor: 1
+      - name: credit-issued
+        num-partitions: 3
+        replication-factor: 1
+      - name: statement-denied
+        num-partitions: 3
+        replication-factor: 1
+  services:
+    documents: http://localhost:8083
+    sign: http://localhost:8083
+    code: http://localhost:8083
 server:
-  port: 8081
+  port: 8083
+calculator:
+  offers:
+    url: http://localhost:8082/calculator/offer
+  calc:
+    url: http://localhost:8082/calculator/calc
+
+external:
+  calculator-service:
+    base-url: http://calculator-service:8082
+  deal-service:
+    base-url: http://deal-service:8083
+  statement-service:
+    base-url: http://statement-service:8081
+  dossier:
+    base-url: http://dossier:8084
+
+
