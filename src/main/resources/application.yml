@@ -8,12 +8,47 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.yourpackage.dto"
+    admin:
+      auto-create: true
+    topics:
+      - name: finish-registrations
+        num-partitions: 3
+        replication-factor: 1
+      - name: create-documents
+        num-partitions: 3
+        replication-factor: 1
+      - name: send-documents
+        num-partitions: 3
+        replication-factor: 1
+      - name: send-ses
+        num-partitions: 3
+        replication-factor: 1
+      - name: credit-issued
+        num-partitions: 3
+        replication-factor: 1
+      - name: statement-denied
+        num-partitions: 3
+        replication-factor: 1
+  services:
+    documents: http://localhost:8081
+    sign: http://localhost:8081
+    code: http://localhost:8081
 server:
   port: 8081
 calculator:

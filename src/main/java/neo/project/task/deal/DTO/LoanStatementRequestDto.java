@@ -35,5 +35,4 @@ public class LoanStatementRequestDto {
 
     @Schema(description = "Номер паспорта", example = "567890")
     private String passportNumber;
-
 }
