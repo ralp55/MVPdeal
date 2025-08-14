@@ -10,7 +10,7 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     networks:
-      - kafka-net
+      - backend-network
 
   kafka:
     image: confluentinc/cp-kafka:7.3.0
@@ -28,9 +28,22 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-      KAFKA_LOG_RETENTION_HOURS: 168
     networks:
-      - kafka-net
+      - backend-network
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_DB: NeoDBmvp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend-network
 
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -44,8 +57,80 @@ services:
     depends_on:
       - kafka
     networks:
-      - kafka-net
+      - backend-network
+
+  deal-service:
+    build:
+      context: ./deal-service
+      dockerfile: Dockerfile
+    container_name: deal-service
+    ports:
+      - "8083:8083"
+    environment:
+      SERVER_PORT: 8083
+      SPRING_APPLICATION_NAME: deal-service
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/deal_service_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1
+    networks:
+      - backend-network
+    depends_on:
+      - postgres
+      - kafka
+
+  calculator-service:
+    build:
+      context: ./calculator-service
+      dockerfile: Dockerfile
+    container_name: calculator-service
+    ports:
+      - "8082:8082"
+    environment:
+      SERVER_PORT: 8082
+      SPRING_APPLICATION_NAME: calculator
+      DEAL_SERVICE_URL: http://deal-service:8083
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    networks:
+      - backend-network
+    depends_on:
+      - deal-service
+
+  statement-service:
+    build:
+      context: ./statement-service
+      dockerfile: Dockerfile
+    container_name: statement-service
+    ports:
+      - "8081:8081"
+    environment:
+      SERVER_PORT: 8081
+      SPRING_APPLICATION_NAME: statement-service
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    networks:
+      - backend-network
+    depends_on:
+      - kafka
+
+  dossier-service:
+    build:
+      context: ./dossier-service
+      dockerfile: Dockerfile
+    container_name: dossier-service
+    ports:
+      - "8084:8084"
+    environment:
+      SERVER_PORT: 8084
+      SPRING_APPLICATION_NAME: dossier
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+    networks:
+      - backend-network
+    depends_on:
+      - kafka
 
 networks:
-  kafka-net:
+  backend-network:
     driver: bridge
+
+volumes:
+  postgres_data:
