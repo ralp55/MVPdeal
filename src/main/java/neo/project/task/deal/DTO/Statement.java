@@ -31,7 +31,7 @@ public class Statement {
     @ManyToOne
     @JoinColumn(name = "client_id")
     @Schema(description = "Клиент")
-    private Client client;
+    private ClientDTO client;
 
     @Column(name = "credit_id")
     @Schema(description = "ID кредита")
